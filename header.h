@@ -2,15 +2,45 @@
 #include <iostream>
 #include <limits>
 
-//exit statuses for promptUser function
-const int ADD = 1;
-const int DELETE = 2;
-const int SEARCH = 3;
-const int SHOW = 4;
-const int QUIT = 0; 
+const int NUM_BUCKETS = 7;
 
 //namespace 
 using namespace std;
 
 //functions
-int promptUser();
+int getKey();
+
+//CLASSES
+class element {
+	int value;
+public:
+	element *next;
+
+	element(){}
+	element(int inputValue) 
+	{
+		value = inputValue;
+	}
+
+	int getValue(){return value;}
+
+	void setValue(int x){cout<<"overwriting with "<<x<<endl; value = x;}
+};
+
+class hashTable {
+	element **table;
+public:
+	hashTable(){
+		//initialize table
+		table = new element*[NUM_BUCKETS];
+		for (int i = 0; i<NUM_BUCKETS; i++) 
+		{
+			table[i] = NULL;
+		}
+	}; 
+	
+	void addElement(int key);
+	void deleteElement(int key);
+	void searchElement(int key);
+	void showTable();
+};
