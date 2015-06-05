@@ -1,5 +1,7 @@
 #include "header.h"
 
+using namespace std;
+
 int getKey() {
 	int numSelected;
 		if(!(cin>>numSelected)||(numSelected<0))
@@ -18,7 +20,7 @@ void hashTable::addElement(int key) {
 	int hash = ((key*key)%NUM_BUCKETS);
 	element *walk;
 
-	if(table[hash] == NULL) {
+	if(!table[hash]) {
 		//add a node
 		table[hash] = new element(key);
 		table[hash]->next = NULL;
@@ -33,7 +35,7 @@ void hashTable::addElement(int key) {
 		}		
 
 		//look for new space
-		while(walk->next!=NULL) 
+		while(walk->next) 
 		{
 			//make sure there isn't a duplicate
 			if(walk->getValue() == key) {
@@ -42,6 +44,13 @@ void hashTable::addElement(int key) {
 			}
 			walk = walk->next; 
 		}
+
+		//make sure there isn't a duplicate
+		if(walk->getValue() == key) {
+			cout<<"WARNING: duplicate input: "<<key<<endl;
+			return;
+		}
+		
 		//create new space
 		walk->next = new element(key);
 		//nullify next
@@ -55,7 +64,7 @@ void hashTable::deleteElement(int key) {
 		
 		element *chaser = table[i];
 		
-		if(chaser == NULL) 
+		if(!chaser) 
 		{
 			continue; //there's nothing in this bucket...
 		}
@@ -70,11 +79,11 @@ void hashTable::deleteElement(int key) {
 			return;
 		}
 
-		while(walk != NULL) 
+		while(walk) 
 		{
 			if(walk->getValue() == key)
 			{
-				if(walk->next == NULL)
+				if(!walk->next)
 				{
 					//at the end of the list
 					delete walk;
@@ -104,7 +113,7 @@ void hashTable::searchElement(int key) {
 	{
 		walk = table[i];
 		//loop through every element in each bucket
-		while(walk != NULL) //
+		while(walk) //
 		{
 			if(walk->getValue() == key)
 			{
@@ -126,9 +135,9 @@ void hashTable::showTable() {
 
 		walk = table[i];
 		//loop through each element in a bucket
-		while(walk!=NULL)
+		while(walk)
 		{
-			if(walk->next == NULL) //do not add a comma at the end of a linked list
+			if(!walk->next) //do not add a comma at the end of a linked list
 				cout<<walk->getValue();
 			else
 				cout<<walk->getValue()<<",";
