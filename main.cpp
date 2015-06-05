@@ -1,3 +1,10 @@
+/*
+Program's additional error checking capabilities:
+	will not fail when user enters in a non-existent operation
+	will not fail if user enters a non-integer value
+	will not fail if user enters in interger value less than 100
+*/
+
 #include "header.h"
 
 int main() {
@@ -20,7 +27,14 @@ int main() {
 				table.addElement(key);
 			}
 		} else if (operation == "delete") {
+			key = getKey();
+			if(key == -1) 
+			{
+				continue;
+			} else {
 
+				table.deleteElement(key);
+			}
 		} else if (operation == "search") {
 			key = getKey();
 			if(key == -1) 

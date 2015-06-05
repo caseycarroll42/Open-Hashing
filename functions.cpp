@@ -2,10 +2,9 @@
 
 int getKey() {
 	int numSelected;
-	cin>>numSelected;
-		if(!(cin<<numSelected)||(numSelected<0))
+		if(!(cin>>numSelected)||(numSelected<0))
 		 {
-			cout<<endl<<"INVALID NUMBER"<<endl;
+			cout<<endl<<"Error: INVALID NUMBER"<<endl;
 			cout<<"please try again"<<endl<<endl;
 			cin.clear();
 			cin.ignore(std::numeric_limits<streamsize> :: max(), '\n');
@@ -16,7 +15,7 @@ int getKey() {
 
 //HASHTABLE FUNCTIONS
 void hashTable::addElement(int key) {
-	int hash = (key%NUM_BUCKETS);
+	int hash = ((key*key)%NUM_BUCKETS);
 	element *walk;
 
 	if(table[hash] == NULL) {
@@ -51,40 +50,89 @@ void hashTable::addElement(int key) {
 }
 
 void hashTable::deleteElement(int key) {
+	
+	for (int i = 0; i < NUM_BUCKETS; i++) {
+		
+		element *chaser = table[i];
+		
+		if(chaser == NULL) 
+		{
+			continue; //there's nothing in this bucket...
+		}
+
+		element *walk = table[i]->next;
+
+		if(chaser->getValue() == key)
+		{
+			//delete the head
+			table[i] = walk;
+			delete chaser;
+			return;
+		}
+
+		while(walk != NULL) 
+		{
+			if(walk->getValue() == key)
+			{
+				if(walk->next == NULL)
+				{
+					//at the end of the list
+					delete walk;
+					chaser->next = NULL;
+					return;
+				} else {
+					//element is in the middle
+					chaser->next = walk->next;
+					delete walk;
+					return;
+				}
+			}
+			//step through the linked list
+			chaser = walk;
+			walk = walk->next;
+		}
+
+	}
+	cout<<"WARNING: target value not found: "<<key<<endl;
 
 }
 
 void hashTable::searchElement(int key) {
 	element *walk; 
+	//loop through every bucket
 	for(int i = 0; i < NUM_BUCKETS; i++)
 	{
 		walk = table[i];
-
-		while(walk != NULL) 
+		//loop through every element in each bucket
+		while(walk != NULL) //
 		{
-			if(walk->getValue() == key) 
+			if(walk->getValue() == key)
 			{
 				cout<<"true"<<endl;
-				return;
+				return; //return after finding key
 			}
 			walk = walk->next;
 		}
 	}
-	cout<<"false"<<endl;
+	cout<<"false"<<endl; //key is not found, display false
 }
 
 void hashTable::showTable() {
 	element *walk;
-
+	//loop through each bucket
 	for ( int i = 0; i < NUM_BUCKETS; i++)
 	{
 		cout<<"(";
 
 		walk = table[i];
-		
+		//loop through each element in a bucket
 		while(walk!=NULL)
 		{
-			cout<<walk->getValue()<<",";
+			if(walk->next == NULL) //do not add a comma at the end of a linked list
+				cout<<walk->getValue();
+			else
+				cout<<walk->getValue()<<",";
+			
 			walk = walk->next;
 		}
 
