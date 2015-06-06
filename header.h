@@ -47,6 +47,11 @@ public:
 			table[i] = NULL;
 		}
 	}
+
+	~hashTable() 
+	{
+		delete table;
+	}
 	
 	//adds and element to a bucket in the table
 	void addElement(int key);

@@ -18,92 +18,59 @@ int getKey() {
 //HASHTABLE FUNCTIONS
 void hashTable::addElement(int key) {
 	int hash = ((key*key)%NUM_BUCKETS);
+	element *chaser;
 	element *walk;
 
-	if(!table[hash]) {
-		//add a node
+
+	//bucket is empty
+	if(!table[hash])
 		table[hash] = new element(key);
-		table[hash]->next = NULL;
-	} else {
-		//create a walk
+	else 
+	{
 		walk = table[hash];
-		
-		//make sure there isn't a duplicate
-		if(walk->getValue() == key) {
-			cout<<"WARNING: duplicate input: "<<key<<endl;
-			return;
-		}		
-
-		//look for new space
-		while(walk->next) 
-		{
-			//make sure there isn't a duplicate
-			if(walk->getValue() == key) {
-				cout<<"WARNING: duplicate input: "<<key<<endl;
-				return;
-			}
-			walk = walk->next; 
+		while(walk->next) {
+			walk = walk->next;
 		}
 
-		//make sure there isn't a duplicate
-		if(walk->getValue() == key) {
-			cout<<"WARNING: duplicate input: "<<key<<endl;
-			return;
-		}
-		
-		//create new space
 		walk->next = new element(key);
-		//nullify next
-		walk->next->next = NULL;
+		return;
 	}
 }
 
 void hashTable::deleteElement(int key) {
+	element *chaser;
+	element *walk;
 	
-	for (int i = 0; i < NUM_BUCKETS; i++) {
-		
-		element *chaser = table[i];
-		
-		if(!chaser) 
-		{
-			continue; //there's nothing in this bucket...
-		}
-
-		element *walk = table[i]->next;
-
-		if(chaser->getValue() == key)
-		{
-			//delete the head
-			table[i] = walk;
-			delete chaser;
-			return;
-		}
+	for (int i = 0; i < NUM_BUCKETS; i++) 
+	{
+		walk = table[i];
 
 		while(walk) 
 		{
-			if(walk->getValue() == key)
-			{
-				if(!walk->next)
-				{
-					//at the end of the list
-					delete walk;
-					chaser->next = NULL;
-					return;
-				} else {
-					//element is in the middle
-					chaser->next = walk->next;
-					delete walk;
-					return;
-				}
-			}
-			//step through the linked list
 			chaser = walk;
 			walk = walk->next;
+			
+			if(chaser->getValue() == key)
+			{
+				//delete head
+				table[i] = walk;
+				delete chaser;
+				return;
+			} 
+			else if (walk)
+			{
+				if(walk->getValue() == key)
+				{
+					if(walk->next) //delete from middle
+						chaser->next = walk->next; 
+					else //delete end 
+						chaser->next = NULL;
+					delete walk;
+					return;	
+				}
+			}
 		}
-
 	}
-	cout<<"WARNING: target value not found: "<<key<<endl;
-
 }
 
 void hashTable::searchElement(int key) {
