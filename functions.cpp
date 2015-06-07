@@ -4,7 +4,7 @@ using namespace std;
 
 int getKey() {
 	int numSelected;
-		if(!(cin>>numSelected)||(numSelected<0))
+		if(!(cin>>numSelected))
 		 {
 			cout<<endl<<"Error: INVALID NUMBER"<<endl;
 			cout<<"please try again"<<endl<<endl;
@@ -25,14 +25,24 @@ void hashTable::addElement(int key) {
 	//bucket is empty
 	if(!table[hash])
 		table[hash] = new element(key);
-	else 
+	else //bucket is not empty, append value
 	{
 		walk = table[hash];
+		if(walk->getValue() == key)
+			{
+				cout<<"WARNING: duplicate input: "<<key<<endl;
+				return; 
+			}
 		while(walk->next) {
+			if(walk->getValue() == key)
+			{
+				cout<<"WARNING: duplicate input: "<<key<<endl;
+				return; 
+			}
 			walk = walk->next;
 		}
-
 		walk->next = new element(key);
+		//walk->next->next = NULL;
 		return;
 	}
 }
@@ -71,6 +81,7 @@ void hashTable::deleteElement(int key) {
 			}
 		}
 	}
+	cout<<"WARNING: target value not found: "<<key<<endl;
 }
 
 void hashTable::searchElement(int key) {

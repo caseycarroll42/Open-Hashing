@@ -26,6 +26,7 @@ public:
 	element(int inputValue) 
 	{
 		value = inputValue;
+		next = NULL;
 	}
 
 	int getValue(){return value;}

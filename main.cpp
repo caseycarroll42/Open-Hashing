@@ -17,37 +17,32 @@ int main() {
 		cout<<"set> ";
 		cin>>operation;
 
-		//execute user entered operation
-		if(operation == "add") {
-			key = getKey();
-			if(key == -1) 
-			{
-				continue;
-			} else {
-				table.addElement(key);
-			}
-		} else if (operation == "delete") {
-			key = getKey();
-			if(key == -1) 
-			{
-				continue;
-			} else {
-
-				table.deleteElement(key);
-			}
-		} else if (operation == "search") {
-			key = getKey();
-			if(key == -1) 
-			{
-				continue;
-			} else {
-				table.searchElement(key);
-			}
-		} else if (operation == "show") {
+		if(operation == "show") 
+		{
 			table.showTable();
+			continue;
 		} else if (operation == "quit") {
 			cout<<"terminating program..."<<endl;
 			return 0;
+		}
+
+		if(!(cin>>key))
+		 {
+			cout<<endl<<"Error: INVALID NUMBER"<<endl;
+			cout<<"please try again"<<endl<<endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize> :: max(), '\n');
+			continue;
+		}
+
+		//execute user entered operation
+		if(operation == "add") {
+			table.addElement(key);
+			
+		} else if (operation == "delete") {
+			table.deleteElement(key);
+		} else if (operation == "search") {
+				table.searchElement(key);
 		} else {
 			//error check user entered operaition
 			cout<<endl<<"INVALID OPERATION"<<endl;
