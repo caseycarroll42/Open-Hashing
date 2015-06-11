@@ -86,21 +86,22 @@ void hashTable::deleteElement(int key) {
 
 void hashTable::searchElement(int key) {
 	element *walk; 
-	//loop through every bucket
-	for(int i = 0; i < NUM_BUCKETS; i++)
+	int hash;
+
+	hash = ((key*key)%NUM_BUCKETS); //finds the bucket that the key is in
+	walk = table[hash]; //sets the walk to the first item in the bucket
+	
+	//loop through every element in selected bucket
+	while(walk) 
 	{
-		walk = table[i];
-		//loop through every element in each bucket
-		while(walk) //
+		if(walk->getValue() == key)
 		{
-			if(walk->getValue() == key)
-			{
-				cout<<"true"<<endl;
-				return; //return after finding key
-			}
-			walk = walk->next;
+			cout<<"true"<<endl;
+			return; //return after finding key
 		}
+		walk = walk->next;
 	}
+	
 	cout<<"false"<<endl; //key is not found, display false
 }
 
