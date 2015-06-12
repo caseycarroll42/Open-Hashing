@@ -2,24 +2,10 @@
 
 using namespace std;
 
-int getKey() {
-	int numSelected;
-		if(!(cin>>numSelected))
-		 {
-			cout<<endl<<"Error: INVALID NUMBER"<<endl;
-			cout<<"please try again"<<endl<<endl;
-			cin.clear();
-			cin.ignore(std::numeric_limits<streamsize> :: max(), '\n');
-			numSelected = -1; //error code
-		}
-	return numSelected;
-}
-
 //HASHTABLE FUNCTIONS
 void hashTable::addElement(int key) {
-	int hash = ((key*key)%NUM_BUCKETS);
-	element *chaser;
-	element *walk;
+	int hash = ((key*key)%NUM_BUCKETS); //hash formula given in requirements
+	element *walk; //temp pointer that steps through linked list
 
 
 	//bucket is empty
@@ -27,60 +13,69 @@ void hashTable::addElement(int key) {
 		table[hash] = new element(key);
 	else //bucket is not empty, append value
 	{
-		walk = table[hash];
+		
+		walk = table[hash]; //sets walk to the first element in correct bucket
+		
+		//CHECK FOR DUPLICATE
 		if(walk->getValue() == key)
 			{
 				cout<<"WARNING: duplicate input: "<<key<<endl;
 				return; 
 			}
+
 		while(walk->next) {
+			
+			//CHECK FOR DUPLICATE
 			if(walk->getValue() == key)
 			{
 				cout<<"WARNING: duplicate input: "<<key<<endl;
 				return; 
 			}
-			walk = walk->next;
+
+			walk = walk->next; //step through linked list
 		}
+
 		walk->next = new element(key);
-		//walk->next->next = NULL;
+		
 		return;
 	}
 }
 
 void hashTable::deleteElement(int key) {
+	int hash = ((key*key)%NUM_BUCKETS); //hash formula given in requirements
+
 	element *chaser;
 	element *walk;
 	
-	for (int i = 0; i < NUM_BUCKETS; i++) 
-	{
-		walk = table[i];
+	walk = table[hash];
 
-		while(walk) 
+	while(walk) 
+	{
+		chaser = walk;
+		walk = walk->next;
+		
+		if(chaser->getValue() == key)
 		{
-			chaser = walk;
-			walk = walk->next;
-			
-			if(chaser->getValue() == key)
+			//DELETE HEAD
+			table[hash] = walk; //set tail end of list to beginning of bucket
+			delete chaser; //delete the selected element
+			return;
+		} 
+		else if (walk)
+		{
+			if(walk->getValue() == key)
 			{
-				//delete head
-				table[i] = walk;
-				delete chaser;
-				return;
-			} 
-			else if (walk)
-			{
-				if(walk->getValue() == key)
-				{
-					if(walk->next) //delete from middle
-						chaser->next = walk->next; 
-					else //delete end 
-						chaser->next = NULL;
-					delete walk;
-					return;	
-				}
+				//DELETE FROM MIDDLE OF LIST
+				if(walk->next)
+					walk = walk->next;
+				else //DELETE END 
+					walk = NULL;
+				delete walk;
+				return;	
 			}
 		}
-	}
+	}//end while
+
 	cout<<"WARNING: target value not found: "<<key<<endl;
 }
 

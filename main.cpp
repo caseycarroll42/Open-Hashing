@@ -19,6 +19,10 @@ int main() {
 
 		if(operation == "show") 
 		{
+			//FLUSH BUFFER IN CASE USER ENTERS EXTRA ARGUMENTS 
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize> :: max(), '\n');
+			
 			table.showTable();
 			continue;
 		} else if (operation == "quit") {
@@ -34,6 +38,10 @@ int main() {
 			cin.ignore(numeric_limits<streamsize> :: max(), '\n');
 			continue;
 		}
+
+		//FLUSH BUFFER IN CASE USER ENTERS TWO INTEGER VALUES 
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize> :: max(), '\n');
 
 		//execute user entered operation
 		if(operation == "add") {
