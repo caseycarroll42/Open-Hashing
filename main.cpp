@@ -1,7 +1,9 @@
 /*
 Program's additional error checking capabilities:
 	will not fail when user enters in a non-existent operation
+		and will not wait for a number after incorrect operation
 	will not fail if user enters a non-integer value
+		and will not accept integer values that are too large
 	will not fail if user enters in interger value less than 0
 */
 

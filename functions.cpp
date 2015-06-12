@@ -2,6 +2,9 @@
 
 using namespace std;
 
+//gets var key by reference
+//returns if retrieving key was successfull or not
+//beautifies main menu
 bool getKey(int &key) {
 	if(!(cin>>key))
 	 {
@@ -15,11 +18,12 @@ bool getKey(int &key) {
 	}
 }
 
-//HASHTABLE FUNCTIONS
+//recieves key, hashes it and places it in correct bucket
+//checks for duplicates
 void hashTable::addElement(int key) {
 	int hash = ((key*key)%NUM_BUCKETS); //hash formula given in requirements
 	element *walk; //temp pointer that steps through linked list
-
+	element *chaser; //temp pointer that follows behind walk
 
 	//bucket is empty
 	if(!table[hash])
@@ -29,27 +33,17 @@ void hashTable::addElement(int key) {
 		
 		walk = table[hash]; //sets walk to the first element in correct bucket
 
-		while(walk->next) {
-			//CHECK FOR DUPLICATE
+		do {
 			if(walk->getValue() == key)
 			{
 				cout<<"WARNING: duplicate input: "<<key<<endl;
-				return; 
+				return; 	
 			}
+			chaser = walk;
+			walk = walk->next;
+		} while(walk);
 
-			walk = walk->next; //step through linked list
-		}
-
-				//CHECK FOR DUPLICATE
-		if(walk->getValue() == key)
-		{
-			cout<<"WARNING: duplicate input: "<<key<<endl;
-			return; 
-		}
-
-		walk->next = new element(key);
-		
-		return;
+		chaser->next = new element(key);
 	}
 }
 
