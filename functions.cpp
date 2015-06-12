@@ -15,16 +15,8 @@ void hashTable::addElement(int key) {
 	{
 		
 		walk = table[hash]; //sets walk to the first element in correct bucket
-		
-		//CHECK FOR DUPLICATE
-		if(walk->getValue() == key)
-			{
-				cout<<"WARNING: duplicate input: "<<key<<endl;
-				return; 
-			}
 
 		while(walk->next) {
-			
 			//CHECK FOR DUPLICATE
 			if(walk->getValue() == key)
 			{
@@ -33,6 +25,13 @@ void hashTable::addElement(int key) {
 			}
 
 			walk = walk->next; //step through linked list
+		}
+
+				//CHECK FOR DUPLICATE
+		if(walk->getValue() == key)
+		{
+			cout<<"WARNING: duplicate input: "<<key<<endl;
+			return; 
 		}
 
 		walk->next = new element(key);
