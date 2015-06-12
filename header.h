@@ -9,7 +9,7 @@ const int NUM_BUCKETS = 7;
 using namespace std;
 
 //functions
-int getKey();
+bool getKey(int &key);
 
 //CLASSES
 

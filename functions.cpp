@@ -2,6 +2,19 @@
 
 using namespace std;
 
+bool getKey(int &key) {
+	if(!(cin>>key))
+	 {
+		cout<<endl<<"Error: INVALID NUMBER"<<endl;
+		cout<<"please try again"<<endl<<endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize> :: max(), '\n');
+		return false;
+	} else {
+		return true;
+	}
+}
+
 //HASHTABLE FUNCTIONS
 void hashTable::addElement(int key) {
 	int hash = ((key*key)%NUM_BUCKETS); //hash formula given in requirements
