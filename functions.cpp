@@ -15,6 +15,7 @@ void hashTable::addElement(int key) {
 	{
 		
 		walk = table[hash]; //sets walk to the first element in correct bucket
+		cout<<walk->getValue()<<endl;
 		
 		//CHECK FOR DUPLICATE
 		if(walk->getValue() == key)
@@ -66,11 +67,16 @@ void hashTable::deleteElement(int key) {
 			if(walk->getValue() == key)
 			{
 				//DELETE FROM MIDDLE OF LIST
-				if(walk->next)
-					walk = walk->next;
-				else //DELETE END 
-					walk = NULL;
-				delete walk;
+				if(walk->next) 
+				{
+					chaser->next = walk->next;
+					delete walk;
+				}
+				else { //delete from end
+					chaser->next = NULL;
+					delete walk;
+				} 
+
 				return;	
 			}
 		}
