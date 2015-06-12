@@ -15,7 +15,6 @@ void hashTable::addElement(int key) {
 	{
 		
 		walk = table[hash]; //sets walk to the first element in correct bucket
-		cout<<walk->getValue()<<endl;
 		
 		//CHECK FOR DUPLICATE
 		if(walk->getValue() == key)
