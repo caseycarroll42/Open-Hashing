@@ -14,6 +14,9 @@ bool getKey(int &key) {
 		cin.ignore(numeric_limits<streamsize> :: max(), '\n');
 		return false;
 	} else {
+		//FLUSH BUFFER IN CASE USER ENTERS EXTRA ARGUMENTS 
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize> :: max(), '\n');
 		return true;
 	}
 }

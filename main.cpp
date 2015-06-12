@@ -1,11 +1,17 @@
-/*
-Program's additional error checking capabilities:
-	will not fail when user enters in a non-existent operation
-		and will not wait for a number after incorrect operation
-	will not fail if user enters a non-integer value
-		and will not accept integer values that are too large
-	will not fail if user enters in interger value less than 0
-*/
+
+// PROGRAM 1 - OPEN HASH TABLE
+// COMPUTING FOUNDATIONS
+
+// AUTHOR: CASEY CARROLL
+// DATE: JUNE 2015
+
+// Program's additional error checking capabilities:
+// 	will not fail when user enters in a non-existent operation
+// 		and will not wait for a number after incorrect operation
+// 	will not fail if user enters a non-integer value
+// 		and will not accept integer values that are too large
+// 	will not fail if user enters in interger value less than 0
+
 
 #include "header.h"
 
@@ -18,6 +24,9 @@ int main() {
 	{
 		cout<<"set> ";
 		cin>>operation;
+
+		//transforms user input to lowercase to accept more garbage
+		transform(operation.begin(), operation.end(), operation.begin(), ::tolower);
 
 		//execute user entered operation
 		if(operation == "add") {

@@ -1,6 +1,9 @@
 //imports
 #include <iostream>
 #include <limits>
+#include <algorithm>
+#include <string>
+#include <cctype>
 
 //number of buckets in hash table
 const int NUM_BUCKETS = 7;
